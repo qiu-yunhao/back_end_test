@@ -1,5 +1,6 @@
 package com.example.demo.Controller;
 
+import com.example.demo.Bean.Car;
 import com.example.demo.Bean.Users;
 import com.example.demo.Mapper.MaintenanceInfoMapper;
 import com.example.demo.Mapper.UserMapper;
@@ -65,6 +66,9 @@ public class MaintenanceController extends BaseController {
     @PostMapping("/addInfo")
     public String insertMaintenance(@RequestBody MaintenanceInfo info, @RequestHeader("token") String token) {
         return withTokenVerity(token, () -> withTokenVerity(token, () -> {
+            Car car = new Car();
+            car.setCid(info.getCid());
+            info.setCar(car);
             MaintenanceInfoMapper.getInstance(dao).saveEntity(info);
             return new Result<>(RCUtil.getSuccess(), "添加信息成功").toString();
         }));
